@@ -5,6 +5,7 @@ ENV DEBIAN_FRONTEND="noninteractive"
 WORKDIR /build
 
 RUN apt update -qq && \
+    apt dist-upgrade -y && \
     apt install --no-install-recommends -y curl \
         ca-certificates \
         dpkg-dev \

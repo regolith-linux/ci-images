@@ -16,7 +16,7 @@ jobs:
       - name: Push to GitHub Packages
         env:
           DOCKER_IMAGE_TAG: docker.pkg.github.com/regolith-linux/regolith-deb-builder/regolith-deb-builder:${{ matrix.node }}
-        run:
+        run: |
           docker login -u ${{ github.actor }} -p ${{secrets.GITHUB_TOKEN}} docker.pkg.github.com
           docker build --build-args=REFERENCE=${{ matrix.node }} -t ${DOCKER_IMAGE_TAG} .
           docker push ${DOCKER_IMAGE_TAG}

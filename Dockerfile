@@ -6,7 +6,10 @@ WORKDIR /build
 
 RUN apt update -qq && \
     apt dist-upgrade -y && \
-    apt install --no-install-recommends -y curl \
+    apt install -y software-properties-common && \
+    add-apt-repository ppa:git-core/ppa -y
+
+RUN apt install --no-install-recommends -y curl \
         ca-certificates \
         packaging-dev \
         git-buildpackage \

@@ -1,0 +1,60 @@
+name: Publish Docker Images
+
+on:
+  schedule:
+    - cron: "0 2 1 * *"
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches:
+      - main
+
+jobs:
+  matrix-builder:
+    runs-on: ubuntu-24.04
+    outputs:
+      includes: ${{ steps.builder.outputs.includes }}
+    steps:
+      - name: Build Matrix
+        id: builder
+        uses: regolith-linux/actions/build-matrix@main
+        with:
+          type: "platform"
+          stage: "unstable"
+          arch: "amd64 arm64"
+
+  build:
+    runs-on: ubuntu-24.04
+    needs: matrix-builder
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.matrix-builder.outputs.includes) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build & Push ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }} Image
+        uses: docker/build-push-action@v6.10.0
+        with:
+          context: .
+          platforms: "linux/${{ matrix.arch }}"
+          push: true
+          build-args: "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }}"
+          file: ${{ matrix.distro }}/Dockerfile
+          tags: ghcr.io/${{ github.repository_owner }}/ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }}

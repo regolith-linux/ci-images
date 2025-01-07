@@ -1,0 +1,53 @@
+name: Test Docker Images
+
+on:
+  pull_request:
+
+jobs:
+  matrix-builder:
+    runs-on: ubuntu-24.04
+    outputs:
+      includes: ${{ steps.builder.outputs.includes }}
+    steps:
+      - name: Build Matrix
+        id: builder
+        uses: regolith-linux/actions/build-matrix@main
+        with:
+          type: "platform"
+          stage: "unstable"
+          arch: "amd64 arm64"
+
+  build:
+    runs-on: ubuntu-24.04
+    needs: matrix-builder
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.matrix-builder.outputs.includes) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate Packages List
+        run: |
+          packages="$(cat common-packages | tr '\n' ' ')"
+          packages+=" $(cat "${{ matrix.distro }}/${{ matrix.codename }}/additional-packages" | tr '\n' ' ')"
+          echo "packages=$packages" >> $GITHUB_ENV
+
+      - name: Build & Push ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }} Image
+        uses: docker/build-push-action@v6.10.0
+        with:
+          context: .
+          platforms: "linux/${{ matrix.arch }}"
+          push: false
+          build-args: "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }};PACKAGES=${{ env.packages }}"
+          file: ${{ matrix.distro }}/Dockerfile
+          tags: ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }}

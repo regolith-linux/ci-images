@@ -1,6 +1,7 @@
 # essentials
 sudo
 ssh
+rsync
 
 # git related packages
 git

@@ -1,16 +1,15 @@
 # essentials
-sudo
-ssh
-
-# git related packages
-git
-git-buildpackage
-ca-certificates
-
-# useful tools
-wget
 curl
 jq
+rsync
+ssh
+sudo
+wget
+
+# git related packages
+ca-certificates
+git
+git-buildpackage
 
 # gpg packages
 gpg
@@ -18,6 +17,6 @@ gpg-agent
 
 # packages required for building .deb package
 devscripts
-dput
 diffutils
+dput
 packaging-dev

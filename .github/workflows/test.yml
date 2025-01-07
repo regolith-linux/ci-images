@@ -42,8 +42,8 @@ jobs:
 
       - name: Generate Packages List
         run: |
-          packages="$(cat common-packages | tr '\n' ' ')"
-          packages+=" $(cat "${{ matrix.distro }}/${{ matrix.codename }}/additional-packages" | tr '\n' ' ')"
+          packages="$(cat common-packages | grep -v "#" | tr '\n' ' ')"
+          packages+=" $(cat "${{ matrix.distro }}/${{ matrix.codename }}/additional-packages" | grep -v "#" | tr '\n' ' ')"
           echo "packages=$packages" >> $GITHUB_ENV
 
       - name: Build ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }} Image

@@ -61,6 +61,8 @@ jobs:
           context: .
           platforms: "linux/${{ matrix.arch }}"
           push: true
-          build-args: "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }};PACKAGES=${{ env.packages }}"
+          build-args: |
+            "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }}"
+            "PACKAGES=${{ env.packages }}"
           file: ${{ matrix.distro }}/Dockerfile
           tags: ghcr.io/${{ github.repository_owner }}/ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }}

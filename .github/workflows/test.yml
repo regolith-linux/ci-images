@@ -48,6 +48,8 @@ jobs:
           context: .
           platforms: "linux/${{ matrix.arch }}"
           push: false
-          build-args: "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }};PACKAGES=${{ env.packages }}"
+          build-args: |
+            "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }}"
+            "PACKAGES=${{ env.packages }}"
           file: ${{ matrix.distro }}/Dockerfile
           tags: ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }}

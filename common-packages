@@ -1,0 +1,13 @@
+sudo
+git
+ca-certificates
+wget
+curl
+jq
+gpg
+gpg-agent
+devscripts
+dput
+diffutils
+packaging-dev
+git-buildpackage

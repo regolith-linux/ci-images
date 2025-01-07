@@ -2,20 +2,8 @@ ARG REFERENCE=${REFERENCE:-ubuntu:latest}
 FROM $REFERENCE
 
 ENV DEBIAN_FRONTEND="noninteractive"
-WORKDIR /build
 
-RUN apt update -qq && \
-    apt install --no-install-recommends -y \
-        sudo \
-        git \
-        ca-certificates \
-        wget \
-        curl \
-        jq \
-        gpg \
-        gpg-agent \
-        devscripts \
-        dput \
-        diffutils \
-        packaging-dev \
-        git-buildpackage
+ARG PACKAGES=${PACKAGES:-sudo}
+RUN apt update -qq && apt install --no-install-recommends -y $PACKAGES
+
+WORKDIR /build

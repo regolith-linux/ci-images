@@ -1,13 +1,22 @@
+# sudo
 sudo
+
+# git related packages
 git
+git-buildpackage
 ca-certificates
+
+# useful tools
 wget
 curl
 jq
+
+# gpg packages
 gpg
 gpg-agent
+
+# packages required for building .deb package
 devscripts
 dput
 diffutils
 packaging-dev
-git-buildpackage

@@ -1,0 +1,59 @@
+name: Generate Distro Folders
+
+on:
+  schedule:
+    - cron: "0 2 1 * *"
+  workflow_dispatch:
+  workflow_call:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  matrix-builder:
+    runs-on: ubuntu-24.04
+    outputs:
+      includes: ${{ steps.builder.outputs.includes }}
+    steps:
+      - name: Build Matrix
+        id: builder
+        uses: regolith-linux/actions/build-matrix@main
+        with:
+          type: "platform"
+          stage: "unstable"
+          arch: "amd64"
+
+  generate:
+    runs-on: ubuntu-24.04
+    needs: matrix-builder
+    env:
+      DISTRO_INCLUDES: "${{ needs.matrix-builder.outputs.includes }}"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Check Distros
+        run: |
+          while read item; do
+            distro=$(echo "$item" | jq -r .distro)
+            codename=$(echo "$item" | jq -r .codename)
+
+            echo "${distro}/${codename}"
+
+            mkdir -p "${distro}/${codename}"
+            touch "${distro}/${codename}/additional-packages"
+          done < <(echo "$DISTRO_INCLUDES" | jq -c '.[]')
+
+      - name: Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.ORG_BROADCAST_TOKEN }}
+        with:
+          file_pattern: "."
+          commit_message: "Auto generate distro and codename folders"
+          commit_user_name: regolith-bot
+          commit_user_email: bot@regolith-desktop.com
+          commit_author: "regolith-bot <bot@regolith-desktop.com>"

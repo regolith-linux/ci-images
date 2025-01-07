@@ -15,7 +15,7 @@ jobs:
         with:
           type: "platform"
           stage: "unstable"
-          arch: "amd64 arm64"
+          arch: "amd64"
 
   build:
     runs-on: ubuntu-24.04
@@ -42,7 +42,7 @@ jobs:
           packages+=" $(cat "${{ matrix.distro }}/${{ matrix.codename }}/additional-packages" | tr '\n' ' ')"
           echo "packages=$packages" >> $GITHUB_ENV
 
-      - name: Build & Push ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }} Image
+      - name: Build ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }} Image
         uses: docker/build-push-action@v6.10.0
         with:
           context: .

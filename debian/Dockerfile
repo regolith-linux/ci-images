@@ -10,5 +10,13 @@ RUN useradd -m -u 1001 regolith && \
     adduser regolith sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+RUN mkdir -p /home/regolith/.ssh/ && \
+    chown -R regolith /home/regolith/.ssh/ && \
+    chmod 700 /home/regolith/.ssh
+
+RUN mkdir -p /home/regolith/.gnupg/ && \
+    chown -R regolith /home/regolith/.gnupg/ && \
+    chmod 700 /home/regolith/.gnupg
+
 USER regolith
 WORKDIR /build

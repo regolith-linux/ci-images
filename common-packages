@@ -1,5 +1,6 @@
 # essentials
 curl
+fakeroot
 jq
 rsync
 ssh

@@ -11,5 +11,13 @@ RUN if id ubuntu >/dev/null 2>&1; then userdel -r ubuntu; fi && \
     adduser regolith sudo && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
+RUN mkdir -p /home/regolith/.ssh/ && \
+    chown -R regolith /home/regolith/.ssh/ && \
+    chmod 700 /home/regolith/.ssh
+
+RUN mkdir -p /home/regolith/.gnupg/ && \
+    chown -R regolith /home/regolith/.gnupg/ && \
+    chmod 700 /home/regolith/.gnupg
+
 USER regolith
 WORKDIR /build

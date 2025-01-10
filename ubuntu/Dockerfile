@@ -19,5 +19,11 @@ RUN mkdir -p /home/regolith/.gnupg/ && \
     chown -R regolith /home/regolith/.gnupg/ && \
     chmod 700 /home/regolith/.gnupg
 
+RUN mkdir -p /build/ && \
+    mkdir -p /build/buildlog/ && \
+    mkdir -p /build/publish/ && \
+    mkdir -p /build/workspace/ && \
+    chown -R regolith /build/
+
 USER regolith
 WORKDIR /build

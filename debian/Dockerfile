@@ -20,6 +20,7 @@ RUN mkdir -p /home/regolith/.gnupg/ && \
 
 RUN mkdir -p /build/ && \
     mkdir -p /build/buildlog/ && \
+    mkdir -p /build/manifests/ && \
     mkdir -p /build/publish/ && \
     mkdir -p /build/workspace/ && \
     chown -R regolith /build/

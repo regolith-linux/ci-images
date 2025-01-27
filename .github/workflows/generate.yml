@@ -50,10 +50,10 @@ jobs:
       - name: Push Changes
         uses: stefanzweifel/git-auto-commit-action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.ORG_BROADCAST_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.ORG_BROADCAST_TOKEN2 }}
         with:
           file_pattern: "."
           commit_message: "Auto generate distro and codename folders"
-          commit_user_name: regolith-bot
+          commit_user_name: regolith-ci-bot
           commit_user_email: bot@regolith-desktop.com
-          commit_author: "regolith-bot <bot@regolith-desktop.com>"
+          commit_author: "regolith-ci-bot <bot@regolith-desktop.com>"

@@ -25,5 +25,7 @@ RUN mkdir -p /build/ && \
     mkdir -p /build/workspace/ && \
     chown -R regolith /build/
 
+SHELL ["/bin/bash", "--noprofile", "--norc", "-c", "-e", "-o pipelfail"] 
+
 USER regolith
 WORKDIR /build

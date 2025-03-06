@@ -1,0 +1,93 @@
+name: Publish Legacy Docker Images
+
+on:
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  matrix-builder:
+    runs-on: ubuntu-24.04
+    outputs:
+      includes: ${{ steps.builder.outputs.includes }}
+      distros: ${{ steps.builder.outputs.distros }}
+    steps:
+      - name: Build Matrix
+        id: builder
+        run: |
+          INCLUDES=()
+          DISTROS=()
+
+          # Ubuntu Focal
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "focal" --arg arch "amd64" '$ARGS.named')")
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "focal" --arg arch "arm64" '$ARGS.named')")
+          DISTROS+=("--arg focal stable")
+
+          # Ubuntu Lunar
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "lunar" --arg arch "amd64" '$ARGS.named')")
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "lunar" --arg arch "arm64" '$ARGS.named')")
+          DISTROS+=("--arg lunar legacy")
+
+          # Ubuntu Mantic
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "mantic" --arg arch "amd64" '$ARGS.named')")
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "mantic" --arg arch "arm64" '$ARGS.named')")
+          DISTROS+=("--arg mantic legacy")
+
+          # Debian Bullseye
+          INCLUDES+=("$(jq -n -c --arg distro "debian" --arg codename "bullseye" --arg arch "amd64" '$ARGS.named')")
+          INCLUDES+=("$(jq -n -c --arg distro "debian" --arg codename "bullseye" --arg arch "arm64" '$ARGS.named')")
+          DISTROS+=("--arg bullseye stable")
+
+          echo "includes=$(jq -n -c "[$(printf '%s\n' "${INCLUDES[@]}" | paste -sd,)]" '$ARGS.named')" >> $GITHUB_OUTPUT
+          echo "distros=$(jq -n -c $(printf '%s\n' "${DISTROS[@]}") '$ARGS.named')" >> $GITHUB_OUTPUT
+
+  build:
+    runs-on: ubuntu-24.04
+    needs: matrix-builder
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.matrix-builder.outputs.includes) }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.ORG_BROADCAST_TOKEN2 }}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Generate Packages List
+        run: |
+          packages="$(cat common-packages | grep -v "#" | tr '\n' ' ')"
+          packages+=" $(cat "${{ matrix.distro }}/${{ matrix.codename }}/additional-packages" | grep -v "#" | tr '\n' ' ')"
+          echo "packages=$packages" >> $GITHUB_ENV
+
+      - name: Build & Push ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }} Image
+        uses: docker/build-push-action@v6.10.0
+        with:
+          context: .
+          platforms: "linux/${{ matrix.arch }}"
+          push: true
+          build-args: |
+            "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }}"
+            "PACKAGES=${{ env.packages }}"
+            "LEGACY=${{ fromJSON(needs.matrix-builder.outputs.distros)[matrix.codename] }}"
+          file: ${{ matrix.distro }}/Dockerfile
+          tags: ghcr.io/${{ github.repository_owner }}/ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }}

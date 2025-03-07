@@ -3,9 +3,6 @@ name: Publish Legacy Docker Images
 on:
   workflow_dispatch:
   workflow_call:
-  push:
-    branches:
-      - main
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

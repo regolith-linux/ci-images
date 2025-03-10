@@ -26,6 +26,11 @@ jobs:
           INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "focal" --arg arch "arm64" '$ARGS.named')")
           DISTROS+=("--arg focal stable")
 
+          # Ubuntu Kinetic
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "kinetic" --arg arch "amd64" '$ARGS.named')")
+          INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "kinetic" --arg arch "arm64" '$ARGS.named')")
+          DISTROS+=("--arg kinetic legacy")
+
           # Ubuntu Lunar
           INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "lunar" --arg arch "amd64" '$ARGS.named')")
           INCLUDES+=("$(jq -n -c --arg distro "ubuntu" --arg codename "lunar" --arg arch "arm64" '$ARGS.named')")

@@ -53,6 +53,7 @@ The supported releases of Ubuntu for different CPU architecture.
 | `ci-ubuntu` | `noble-amd64`      | `noble-arm64`      |
 | `ci-ubuntu` | `oracular-amd64`   | `oracular-arm64`   |
 | `ci-ubuntu` | `plucky-amd64`     | `plucky-arm64`     |
+| `ci-ubuntu` | `questing-amd64`   | `questing-arm64`   |
 
 ## Example
 

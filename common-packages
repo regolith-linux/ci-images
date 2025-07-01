@@ -17,7 +17,11 @@ gpg
 gpg-agent
 
 # packages required for building .deb package
+build-essential
+debhelper
 devscripts
 diffutils
 dput
-packaging-dev
+lintian
+sbuild
+quilt

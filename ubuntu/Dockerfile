@@ -3,8 +3,8 @@ FROM $REFERENCE
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
-ARG LEGACY=${LEGACY:-stable}
-RUN if [ "$LEGACY" != "stable" ]; then \
+ARG LEGACY=${LEGACY:-no}
+RUN if [ "$LEGACY" != "no" ]; then \
         sed -i 's|archive\.ubuntu\.com/ubuntu|old-releases\.ubuntu\.com/ubuntu|' /etc/apt/*.list ; \
         sed -i 's|security\.ubuntu\.com/ubuntu|old-releases\.ubuntu\.com/ubuntu|' /etc/apt/*.list ; \
         sed -i 's|ports\.ubuntu\.com/ubuntu-ports|old-releases\.ubuntu\.com/ubuntu|' /etc/apt/*.list ; \

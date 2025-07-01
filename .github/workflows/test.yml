@@ -55,5 +55,6 @@ jobs:
           build-args: |
             "REFERENCE=${{ matrix.distro }}:${{ matrix.codename }}"
             "PACKAGES=${{ env.packages }}"
+            "LEGACY=no"
           file: ${{ matrix.distro }}/Dockerfile
           tags: ci-${{ matrix.distro }}:${{ matrix.codename }}-${{ matrix.arch }}

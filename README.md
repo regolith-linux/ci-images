@@ -37,6 +37,7 @@ The supported releases of Debian for different CPU architecture.
 |:------------|:-------------------|--------------------|
 | `ci-debian` | `bookworm-amd64`   | `bookworm-arm64`   |
 | `ci-debian` | `bullseye-amd64`   | `bullseye-arm64`   |
+| `ci-debian` | `trixie-amd64`     | `trixie-arm64`     |
 | `ci-debian` | `testing-amd64`    | `testing-arm64`    |
 
 ### Ubuntu

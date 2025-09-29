@@ -62,5 +62,18 @@ The supported releases of Ubuntu for different CPU architecture.
 docker pull ghcr.io/regolith-linux/ci-debian:bookworm-arm64
 ```
 
+## Add new Distro or Codename
+
+Make sure the new distro or codename being added exists in voulage's
+[unstable stage][unstable-stage] and then run [Generate Distro Folders]
+actions. This will create the corresponding folder and pushe the changes back
+to the `main` branch.
+
+You may want to adjust `additional-packages` content for this new distro and/or
+codename in a separate pull request. And add a new entry in the corresponding
+table in [Supported Tags](#supported-tags) section above.
+
 [voulage]: https://github.com/regolith-linux/voulage
 [actions]: https://github.com/regolith-linux/actions
+[unstable-stage]: https://github.com/regolith-linux/voulage/tree/main/stage/unstable
+[Generate Distro Folders]: https://github.com/regolith-linux/ci-images/actions/workflows/generate.yml

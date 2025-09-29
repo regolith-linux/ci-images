@@ -3,13 +3,6 @@ FROM $REFERENCE
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
-ARG LEGACY=${LEGACY:-no}
-RUN if [ "$LEGACY" != "no" ]; then \
-        sed -i 's|archive\.ubuntu\.com/ubuntu|old-releases\.ubuntu\.com/ubuntu|' /etc/apt/*.list ; \
-        sed -i 's|security\.ubuntu\.com/ubuntu|old-releases\.ubuntu\.com/ubuntu|' /etc/apt/*.list ; \
-        sed -i 's|ports\.ubuntu\.com/ubuntu-ports|old-releases\.ubuntu\.com/ubuntu|' /etc/apt/*.list ; \
-    fi
-
 ARG PACKAGES=${PACKAGES:-sudo}
 RUN apt update -qq && apt install --no-install-recommends -y $PACKAGES
 

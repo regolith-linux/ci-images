@@ -33,28 +33,28 @@ The images are pushed to GitHub Container Registry and are accessible under
 
 The supported releases of Debian for different CPU architecture.
 
-| Image Name  | Tag Name (`amd64`) | Tag Name (`arm64`) |
-|:------------|:-------------------|--------------------|
-| `ci-debian` | `bookworm-amd64`   | `bookworm-arm64`   |
-| `ci-debian` | `bullseye-amd64`   | `bullseye-arm64`   |
-| `ci-debian` | `trixie-amd64`     | `trixie-arm64`     |
-| `ci-debian` | `testing-amd64`    | `testing-arm64`    |
+| Image Name  | Tag Name (`amd64`) | Tag Name (`arm64`) | End of Life |
+|:------------|:-------------------|--------------------|:-----------:|
+| `ci-debian` | `bullseye-amd64`   | `bullseye-arm64`   | ✔           |
+| `ci-debian` | `bookworm-amd64`   | `bookworm-arm64`   | -           |
+| `ci-debian` | `trixie-amd64`     | `trixie-arm64`     | -           |
+| `ci-debian` | `testing-amd64`    | `testing-arm64`    | -           |
 
 ### Ubuntu
 
 The supported releases of Ubuntu for different CPU architecture.
 
-| Image Name  | Tag Name (`amd64`) | Tag Name (`arm64`) |
-|:------------|:-------------------|--------------------|
-| `ci-ubuntu` | `focal-amd64`      | `focal-arm64`      |
-| `ci-ubuntu` | `jammy-amd64`      | `jammy-arm64`      |
-| `ci-ubuntu` | `kinetic-amd64`    | `kinetic-arm64`    |
-| `ci-ubuntu` | `lunar-amd64`      | `lunar-arm64`      |
-| `ci-ubuntu` | `mantic-amd64`     | `mantic-arm64`     |
-| `ci-ubuntu` | `noble-amd64`      | `noble-arm64`      |
-| `ci-ubuntu` | `oracular-amd64`   | `oracular-arm64`   |
-| `ci-ubuntu` | `plucky-amd64`     | `plucky-arm64`     |
-| `ci-ubuntu` | `questing-amd64`   | `questing-arm64`   |
+| Image Name  | Tag Name (`amd64`) | Tag Name (`arm64`) | End of Life |
+|:------------|:-------------------|--------------------|:-----------:|
+| `ci-ubuntu` | `focal-amd64`      | `focal-arm64`      | ✔           |
+| `ci-ubuntu` | `jammy-amd64`      | `jammy-arm64`      | -           |
+| `ci-ubuntu` | `kinetic-amd64`    | `kinetic-arm64`    | ✔           |
+| `ci-ubuntu` | `lunar-amd64`      | `lunar-arm64`      | ✔           |
+| `ci-ubuntu` | `mantic-amd64`     | `mantic-arm64`     | ✔           |
+| `ci-ubuntu` | `noble-amd64`      | `noble-arm64`      | -           |
+| `ci-ubuntu` | `oracular-amd64`   | `oracular-arm64`   | ✔           |
+| `ci-ubuntu` | `plucky-amd64`     | `plucky-arm64`     | -           |
+| `ci-ubuntu` | `questing-amd64`   | `questing-arm64`   | -           |
 
 ## Example
 

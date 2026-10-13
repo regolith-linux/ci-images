@@ -56,6 +56,7 @@ The supported releases of Ubuntu for different CPU architecture.
 | `ci-ubuntu` | `plucky-amd64`     | `plucky-arm64`     | ✔           |
 | `ci-ubuntu` | `questing-amd64`   | `questing-arm64`   | -           |
 | `ci-ubuntu` | `resolute-amd64`   | `resolute-arm64`   | -           |
+| `ci-ubuntu` | `stonking-amd64`   | `stonking-arm64`   | -           |
 
 ## Example
 

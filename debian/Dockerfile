@@ -7,7 +7,7 @@ ARG PACKAGES=${PACKAGES:-sudo}
 RUN apt update -qq && apt install --no-install-recommends -y $PACKAGES
 
 RUN useradd -m -u 1001 regolith && \
-    adduser regolith sudo && \
+    usermod -aG sudo regolith && \
     echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 RUN mkdir -p /home/regolith/.ssh/ && \

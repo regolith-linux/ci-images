@@ -25,7 +25,10 @@ RUN mkdir -p /build/ && \
     mkdir -p /build/workspace/ && \
     chown -R regolith /build/
 
-SHELL ["/bin/bash", "--noprofile", "--norc", "-c", "-e", "-o pipelfail"] 
+# Run later RUN instructions, here and in images built on this one, with
+# bash -e -o pipefail
+SHELL ["/bin/bash", "--noprofile", "--norc", "-e", "-o", "pipefail", "-c"]
+RUN [[ $- == *e* ]] && [[ -o pipefail ]]
 
 USER regolith
 WORKDIR /build
